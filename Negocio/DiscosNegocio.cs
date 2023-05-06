@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using System.Data.SqlClient;//agregar la librería
 using Dominio; //Hago que Dominio reconozca a ConexionDB
 using System.Diagnostics;
+using System.Security.AccessControl;
+using System.Globalization;
 
 namespace Negocio
 {
@@ -63,8 +65,6 @@ namespace Negocio
                 throw ex;
             }
         }
-
-
         public void agregar(Discos nuevo)
         {
             AccesoDatos datos = new AccesoDatos();
@@ -86,7 +86,6 @@ namespace Negocio
                 datos.cerrarConexion();
             }
         }
-
         public void modificar(Discos disc)
         {
                 AccesoDatos datos = new AccesoDatos();
@@ -109,6 +108,112 @@ namespace Negocio
             finally
             {
                 datos.cerrarConexion();
+            }
+        }
+
+        public List<Discos> filtrar(string campo, string criterio, string filtro)
+        {
+            List<Discos> lista = new List<Discos>();
+            AccesoDatos datos = new AccesoDatos();
+            try
+            {
+                string consulta = "Select D.Id, Titulo, CantidadCanciones, UrlImagenTapa, E.Descripcion as Genero, D.IdEstilo From DISCOS D, ESTILOS E Where E.Id = D.IdEstilo AND ";
+                if (campo == "Id")
+                {
+                    switch (criterio)
+
+                    {
+                        case "Mayor a":
+                            consulta += "D.Id > " + filtro;
+                            break;
+                        case "Menor a":
+                            consulta += "D.Id < " + filtro;
+                            break;
+                        default:
+                            consulta += "D.Id = " + filtro;
+                            break;
+                    }
+
+                }
+                else if (campo == "Título")
+                {
+                    switch (criterio)
+                    {
+                        case "Comienza con":
+                            consulta += "D.Titulo like  '" + filtro + "%' ";
+                            break;
+                        case "Termina con":
+                            consulta += "D.Titulo like '%" + filtro + "'";
+                            break;
+                        default:
+                            consulta += "D.Titulo like '%" + filtro + "%'";
+                            break;
+                    }
+                }
+                else
+                {
+                    switch (criterio)
+                    {
+                        case "Comienza con":
+                            consulta += "E.Descripcion like  '" + filtro + "%' ";
+                            break;
+                        case "Termina con":
+                            consulta += "E.Descripcion like '%" + filtro + "'";
+                            break;
+                        default:
+                            consulta += "E.Descripcion like '%" + filtro + "%'";
+                            break;
+                    }
+                }
+                datos.setearConsulta(consulta);
+                datos.ejecutarLectura();
+                while (datos.Lector.Read())
+                {
+                    Discos aux = new Discos();
+                    aux.Id = datos.Lector.GetInt32(0);
+                    aux.Titulo = (string)datos.Lector["Titulo"];
+                    aux.CantidadCanciones = datos.Lector.GetInt32(2);
+
+                    //VALIDACIÓN DE NULL opcion 1
+                    if (!(datos.Lector.IsDBNull(datos.Lector.GetOrdinal("UrlImagenTapa"))))
+                        aux.UrlImagenTapa = (string)datos.Lector["UrlImagenTapa"];
+
+                    //validacion de null opcion 2 (no me funciona)
+                    //if (lector["UrlImagenTapa"] is DBNull)
+                    //aux.UrlImagenTapa = (string)lector["UrlImagenTapa"];
+
+
+
+                    aux.Genero = new Estilo();
+                    aux.Genero.Id = (int)datos.Lector["IdEstilo"]; //(en caso de que llamara a la consulta sql para pedir D.IdTipo)
+                    aux.Genero.Descripcion = (string)datos.Lector["Genero"];
+
+
+                    lista.Add(aux);
+                }
+                return lista; 
+            
+            }
+                        
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+        public void eliminar(int id)
+        {
+            try
+            {
+                AccesoDatos datos = new AccesoDatos();
+                datos.setearConsulta("delete from DISCOS where id = @id");
+                datos.setearParametro("@id", id);
+                datos.ejecutarAccion();
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
             }
         }
 

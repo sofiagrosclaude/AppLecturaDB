@@ -3,18 +3,21 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Dominio;
 using Negocio;
+using System.Configuration; //agregado por referencia en ensambles
 
 namespace ConexionDB
 {
     public partial class frmAltaDisco : Form
     {
         private Discos disco = null;
+        private OpenFileDialog archivo = null;
         public frmAltaDisco()
         {
             InitializeComponent();
@@ -31,7 +34,6 @@ namespace ConexionDB
         {
             this.Close();
         }
-
         private void btnAceptar_Click(object sender, EventArgs e)
         {
          
@@ -60,7 +62,10 @@ namespace ConexionDB
                     negocio.agregar(disco);
                     MessageBox.Show("Agregado exitosamente.");
                 }
-
+                //Guardo imagen si la levantó localmente:
+                if(archivo != null && (txtImagen.Text.ToUpper().Contains("HTTP")))
+                    File.Copy(archivo.FileName, ConfigurationManager.AppSettings["images-folder"] + archivo.SafeFileName);
+                
                 Close();
 
             }
@@ -69,7 +74,6 @@ namespace ConexionDB
                 MessageBox.Show(ex.ToString());
             }
         }
-
         private void frmAltaDisco_Load(object sender, EventArgs e)
         {
             EstiloNegocio estiloNegocio = new EstiloNegocio();
@@ -113,6 +117,21 @@ namespace ConexionDB
                 pbNuevoDisco.Load("https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Placeholder_view_vector.svg/681px-Placeholder_view_vector.svg.png");
             }
 
+        }
+
+        private void btnAgregarImagen_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog archivo = new OpenFileDialog();
+            archivo.Filter = "jpg|*.jpg;|png|*.png";
+            if(archivo.ShowDialog() == DialogResult.OK) 
+            {
+                txtImagen.Text = archivo.FileName;
+                cargarImagen(archivo.FileName);
+
+                //guardo la imagen
+                //File.Copy(archivo.FileName, ConfigurationManager.AppSettings["images-folder"] + archivo.SafeFileName);
+            }
+            
         }
     }
 }

@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmAltaDisco));
             this.lblNombre = new System.Windows.Forms.Label();
             this.txtNombre = new System.Windows.Forms.TextBox();
             this.btnAceptar = new System.Windows.Forms.Button();
@@ -41,12 +42,14 @@
             this.lblImagen = new System.Windows.Forms.Label();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.pbNuevoDisco = new System.Windows.Forms.PictureBox();
+            this.btnAgregarImagen = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pbNuevoDisco)).BeginInit();
             this.SuspendLayout();
             // 
             // lblNombre
             // 
             this.lblNombre.AutoSize = true;
+            this.lblNombre.ForeColor = System.Drawing.Color.Black;
             this.lblNombre.Location = new System.Drawing.Point(64, 58);
             this.lblNombre.Name = "lblNombre";
             this.lblNombre.Size = new System.Drawing.Size(47, 13);
@@ -62,22 +65,26 @@
             // 
             // btnAceptar
             // 
+            this.btnAceptar.BackColor = System.Drawing.Color.SteelBlue;
+            this.btnAceptar.ForeColor = System.Drawing.SystemColors.Control;
             this.btnAceptar.Location = new System.Drawing.Point(60, 198);
             this.btnAceptar.Name = "btnAceptar";
-            this.btnAceptar.Size = new System.Drawing.Size(75, 23);
+            this.btnAceptar.Size = new System.Drawing.Size(75, 29);
             this.btnAceptar.TabIndex = 4;
             this.btnAceptar.Text = "Aceptar";
-            this.btnAceptar.UseVisualStyleBackColor = true;
+            this.btnAceptar.UseVisualStyleBackColor = false;
             this.btnAceptar.Click += new System.EventHandler(this.btnAceptar_Click);
             // 
             // btnCancelar
             // 
+            this.btnCancelar.BackColor = System.Drawing.Color.SteelBlue;
+            this.btnCancelar.ForeColor = System.Drawing.SystemColors.Control;
             this.btnCancelar.Location = new System.Drawing.Point(163, 198);
             this.btnCancelar.Name = "btnCancelar";
-            this.btnCancelar.Size = new System.Drawing.Size(75, 23);
+            this.btnCancelar.Size = new System.Drawing.Size(75, 29);
             this.btnCancelar.TabIndex = 5;
             this.btnCancelar.Text = "Cancelar";
-            this.btnCancelar.UseVisualStyleBackColor = true;
+            this.btnCancelar.UseVisualStyleBackColor = false;
             this.btnCancelar.Click += new System.EventHandler(this.btnCancelar_Click);
             // 
             // txtCanciones
@@ -90,6 +97,7 @@
             // lblCanciones
             // 
             this.lblCanciones.AutoSize = true;
+            this.lblCanciones.ForeColor = System.Drawing.Color.Black;
             this.lblCanciones.Location = new System.Drawing.Point(51, 89);
             this.lblCanciones.Name = "lblCanciones";
             this.lblCanciones.Size = new System.Drawing.Size(60, 13);
@@ -99,6 +107,7 @@
             // lblEstilo
             // 
             this.lblEstilo.AutoSize = true;
+            this.lblEstilo.ForeColor = System.Drawing.Color.Black;
             this.lblEstilo.Location = new System.Drawing.Point(76, 148);
             this.lblEstilo.Name = "lblEstilo";
             this.lblEstilo.Size = new System.Drawing.Size(35, 13);
@@ -125,6 +134,7 @@
             // lblImagen
             // 
             this.lblImagen.AutoSize = true;
+            this.lblImagen.ForeColor = System.Drawing.Color.Black;
             this.lblImagen.Location = new System.Drawing.Point(50, 119);
             this.lblImagen.Name = "lblImagen";
             this.lblImagen.Size = new System.Drawing.Size(61, 13);
@@ -146,11 +156,23 @@
             this.pbNuevoDisco.TabIndex = 14;
             this.pbNuevoDisco.TabStop = false;
             // 
+            // btnAgregarImagen
+            // 
+            this.btnAgregarImagen.Location = new System.Drawing.Point(246, 116);
+            this.btnAgregarImagen.Name = "btnAgregarImagen";
+            this.btnAgregarImagen.Size = new System.Drawing.Size(25, 23);
+            this.btnAgregarImagen.TabIndex = 15;
+            this.btnAgregarImagen.Text = "+";
+            this.btnAgregarImagen.UseVisualStyleBackColor = true;
+            this.btnAgregarImagen.Click += new System.EventHandler(this.btnAgregarImagen_Click);
+            // 
             // frmAltaDisco
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.LightSlateGray;
             this.ClientSize = new System.Drawing.Size(534, 271);
+            this.Controls.Add(this.btnAgregarImagen);
             this.Controls.Add(this.pbNuevoDisco);
             this.Controls.Add(this.txtImagen);
             this.Controls.Add(this.lblImagen);
@@ -162,11 +184,12 @@
             this.Controls.Add(this.btnAceptar);
             this.Controls.Add(this.txtNombre);
             this.Controls.Add(this.lblNombre);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximumSize = new System.Drawing.Size(550, 310);
             this.MinimumSize = new System.Drawing.Size(322, 310);
             this.Name = "frmAltaDisco";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Nuevo Disco";
+            this.Text = "Agregar Disco";
             this.Load += new System.EventHandler(this.frmAltaDisco_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pbNuevoDisco)).EndInit();
             this.ResumeLayout(false);
@@ -187,5 +210,6 @@
         private System.Windows.Forms.Label lblImagen;
         private System.Windows.Forms.ImageList imageList1;
         private System.Windows.Forms.PictureBox pbNuevoDisco;
+        private System.Windows.Forms.Button btnAgregarImagen;
     }
 }
